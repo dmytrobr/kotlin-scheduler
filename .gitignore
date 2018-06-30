@@ -1,2 +1,4 @@
-scheduler.iml
+kotlin-scheduler.iml
 .idea/**
+.gradle/**
+build/**
