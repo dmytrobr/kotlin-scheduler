@@ -1,4 +1,8 @@
 package com.dmytrobr
 
-class Scheduler {
+import com.dmytrobr.data.Schedule
+import java.time.LocalDate
+
+interface Scheduler {
+    fun schedule(schedule: Schedule): List<LocalDate>
 }

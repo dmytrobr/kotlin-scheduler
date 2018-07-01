@@ -1,16 +1,19 @@
 plugins {
-    application
     kotlin("jvm") version "1.2.50"
-}
-
-application {
-    mainClassName = "com.dmytrobr.Scheduler"
 }
 
 dependencies {
     compile(kotlin("stdlib"))
+    testCompile("org.assertj:assertj-core:3.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.2.0")
 }
 
-repositories {
-    jcenter()
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
+repositories {
+    mavenCentral()
+}
+
