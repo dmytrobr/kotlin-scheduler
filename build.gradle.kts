@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.fusesource.jansi.AnsiRenderer.test
+
 plugins {
     kotlin("jvm") version "1.2.50"
 }
@@ -11,9 +13,10 @@ dependencies {
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+    useJUnitPlatform{
+        includeEngines("junit-jupiter")
+    }
 }
 repositories {
     mavenCentral()
 }
-

@@ -14,4 +14,4 @@ data class Schedule(
         val endDate: LocalDate,
         val scheduleType: ScheduleType,
         val dayPositions: List<Int> = ArrayList(),
-        val businessDay: Boolean=false)
+        val businessDay: Boolean = false)
