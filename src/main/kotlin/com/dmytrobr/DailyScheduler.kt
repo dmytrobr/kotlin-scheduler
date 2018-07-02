@@ -21,8 +21,11 @@ fun getDatesFromRange(startDate: LocalDate, endDate: LocalDate, condition: (Loca
 fun dailySchedule(schedule: Schedule): List<LocalDate> {
     return getDatesFromRange(schedule.startDate, schedule.endDate)
     { date: LocalDate ->
-        schedule.businessDay && EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY).contains(date.dayOfWeek)
+        schedule.businessDay && isWeekend(date)
     }
 }
+
+fun isWeekend(date: LocalDate) =
+        EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY).contains(date.dayOfWeek)
 
 
