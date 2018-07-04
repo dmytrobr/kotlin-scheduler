@@ -1,22 +1,28 @@
-import org.gradle.internal.impldep.org.fusesource.jansi.AnsiRenderer.test
 
 plugins {
     kotlin("jvm") version "1.2.50"
+    id("java")
 }
 
 dependencies {
     compile(kotlin("stdlib"))
     testCompile("org.assertj:assertj-core:3.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
+    testCompile("org.junit.jupiter:junit-jupiter-params:5.2.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+    testCompile(kotlin("test"))
+    testCompile(kotlin("test-junit"))
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform{
-        includeEngines("junit-jupiter")
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
 }
+
+//withParallelTests()
 repositories {
     mavenCentral()
 }

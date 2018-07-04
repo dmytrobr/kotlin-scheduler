@@ -4,6 +4,8 @@ import com.dmytrobr.data.Schedule
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.IsoFields
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalAdjuster
 import java.util.*
 
 
@@ -11,19 +13,26 @@ fun quarterlySchedule(schedule: Schedule): List<LocalDate> {
 
     var findNextDate = findNextNDayInQuarter()
     if (schedule.businessDay) {
-        findNextDate = findNextNBusinessDayInQuarter()
+        findNextDate = findNBusinessDayInQuarter()
     }
     val dates = ArrayList<LocalDate>()
     for (n in schedule.dayPositions) {
-
         DayPositionIterator(n, schedule.startDate, schedule.endDate, jumpToNextQuarter(), findNextDate).forEach { date ->
             dates.add(date)
         }
-
     }
     return dates
 
 }
+
+private fun findNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate = findNBusinessDayInPeriod(TemporalAdjuster { temporal: Temporal ->
+    temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).getMaximum())
+
+}, TemporalAdjuster { temporal ->
+    temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).getMaximum())
+
+})
+
 
 fun findNextNDayInQuarter(): (LocalDate, Int) -> LocalDate =
         { date, n ->
@@ -35,12 +44,11 @@ fun findNextNDayInQuarter(): (LocalDate, Int) -> LocalDate =
 
         }
 
-fun findNextNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate =
-        {
-            findNBusinessDayInPeriod(firstDayOfQuarter,lastDayOfQuarter)
-
-
-        }
+//fun findNextNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate =
+//        {
+//            findNBusinessDayInPeriod(oneA,twoA)
+//
+//        }
 
 
 private fun jumpToNextQuarter(): (LocalDate) -> LocalDate = { date -> date.plusMonths(3) }

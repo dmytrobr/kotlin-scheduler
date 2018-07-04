@@ -9,9 +9,9 @@ import java.util.*
 
 fun monthlySchedule(schedule: Schedule): List<LocalDate> {
     val findNextNDayInMonth: (LocalDate, Int) -> LocalDate = if (schedule.businessDay) {
-        findNDayInMonth()
-    } else {
         findNBusinessDayInPeriod(TemporalAdjusters.firstDayOfMonth(), TemporalAdjusters.lastDayOfMonth())
+    } else {
+        findNDayInMonth()
     }
     val dates = ArrayList<LocalDate>()
     for (n in schedule.dayPositions) {
@@ -33,7 +33,7 @@ fun findNBusinessDayInPeriod(adjustToFirstDayOfPeriod: TemporalAdjuster, adjustT
         startDate = currentDay.with(adjustToLastDay)
     }
     var iterated = findNextOrSameBusinessDay(startDate, dayCounterShift)
-    while (!dayCounter.equals(n)) {
+    while (!dayCounter.equals(n.toLong())) {
         iterated = findNextOrSameBusinessDay(iterated.plusDays(dayCounterShift), dayCounterShift)
         dayCounter = dayCounter.plus(dayCounterShift)
     }
@@ -43,21 +43,20 @@ fun findNBusinessDayInPeriod(adjustToFirstDayOfPeriod: TemporalAdjuster, adjustT
 fun findNextOrSameBusinessDay(current: LocalDate, dayCounterShift: Long): LocalDate {
     var result = current
     while (isWeekend(result)) {
-        result = result.plusDays(1)
+        result = result.plusDays(dayCounterShift)
     }
     return result
 }
 
-private fun findNDayInMonth(): (LocalDate, Int) -> LocalDate {
-    return { currentDay: LocalDate, dayPosition: Int ->
-        val yMonth = YearMonth.of(currentDay.year, currentDay.month)
-        if (dayPosition > 0) {
-            yMonth.atDay(dayPosition)
-        } else {
-            yMonth.atEndOfMonth().plusDays(dayPosition + 1L)
-        }
+private fun findNDayInMonth(): (LocalDate, Int) -> LocalDate = { currentDay: LocalDate, dayPosition: Int ->
+    val yMonth = YearMonth.of(currentDay.year, currentDay.month)
+    if (dayPosition > 0) {
+        yMonth.atDay(dayPosition)
+    } else {
+        yMonth.atEndOfMonth().plusDays(dayPosition + 1L)
     }
 }
+
 
 private fun jumpToNextMonth(): (LocalDate) -> LocalDate {
     return { currentDay: LocalDate ->
