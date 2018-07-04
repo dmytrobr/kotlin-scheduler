@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDate.parse
 
 
-class MonthlyBusinessDayTest {
+class MonthlyTest {
     @Test
     fun `4 business days per month`() {
         assertThat(
@@ -24,7 +24,7 @@ class MonthlyBusinessDayTest {
 
 
     @Test
-    fun `last business day of month`() {
+    fun `last day of month`() {
         assertThat(
                 createSchedule("2017-07-12", "2017-08-20", true, -1).toListOfDates())
                 .containsExactlyInAnyOrder(
