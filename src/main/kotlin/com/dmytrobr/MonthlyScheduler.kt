@@ -58,11 +58,10 @@ private fun findNDayInMonth(): (LocalDate, Int) -> LocalDate = { currentDay: Loc
 }
 
 
-private fun jumpToNextMonth(): (LocalDate) -> LocalDate {
-    return { currentDay: LocalDate ->
-        currentDay.plusMonths(1)
-    }
+private fun jumpToNextMonth(): (LocalDate) -> LocalDate = { currentDay: LocalDate ->
+    currentDay.plusMonths(1)
 }
+
 
 
 

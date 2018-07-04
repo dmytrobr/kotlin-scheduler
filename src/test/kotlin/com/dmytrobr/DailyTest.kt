@@ -2,6 +2,7 @@ package com.dmytrobr
 
 import com.dmytrobr.data.Schedule
 import com.dmytrobr.data.ScheduleType
+import com.dmytrobr.data.toListOfDates
 import java.time.LocalDate.parse
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -9,8 +10,8 @@ import org.junit.jupiter.api.Test
 class DailyTest {
     @Test
     fun testDailySchedule() {
-        assertThat(dailySchedule(
-                createSchedule("2017-07-29", "2017-07-20", false)))
+        assertThat(
+                createSchedule("2017-07-29", "2017-07-20", false).toListOfDates())
                 .containsExactlyInAnyOrder(
                         parse("2017-07-29"))
     }
@@ -18,8 +19,8 @@ class DailyTest {
 
     @Test
     fun testMultipleDaysAcrossMonth() {
-        assertThat(dailySchedule(
-                createSchedule("2017-07-29", "2017-08-02", false)))
+        assertThat(
+                createSchedule("2017-07-29", "2017-08-02", false).toListOfDates())
                 .containsExactlyInAnyOrder(
                         parse("2017-07-29"),
                         parse("2017-07-30"),
@@ -29,8 +30,8 @@ class DailyTest {
 
     @Test
     fun testBusinessDaysOnly() {
-        assertThat(dailySchedule(
-                createSchedule("2017-08-03", "2017-08-08", true)))
+        assertThat(
+                createSchedule("2017-08-03", "2017-08-08", true).toListOfDates())
                 .containsExactlyInAnyOrder(
                         parse("2017-08-03"),
                         parse("2017-08-04"),
