@@ -25,13 +25,14 @@ fun quarterlySchedule(schedule: Schedule): List<LocalDate> {
 
 }
 
-private fun findNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate = findNBusinessDayInPeriod(TemporalAdjuster { temporal: Temporal ->
-    temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).getMaximum())
+private fun findNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate = findNBusinessDayInPeriod(
+        adjustToFirstDayOfPeriod = TemporalAdjuster { temporal: Temporal ->
+            temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).minimum)
 
-}, TemporalAdjuster { temporal ->
-    temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).getMaximum())
-
-})
+        },
+        adjustToLastDay = TemporalAdjuster { temporal ->
+            temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).maximum)
+        })
 
 
 fun findNextNDayInQuarter(): (LocalDate, Int) -> LocalDate =
