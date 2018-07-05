@@ -5,7 +5,9 @@ import com.dmytrobr.data.ScheduleType
 import com.dmytrobr.data.toListOfDates
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 import java.time.LocalDate.parse
+import java.util.Arrays.asList
 
 
 class MonthlyBusinessDayTest {
@@ -48,6 +50,16 @@ class MonthlyBusinessDayTest {
                         parse("2017-10-02"))
     }
 
-    private fun createSchedule(startDate: String, endDate: String, isBusinessDay: Boolean, vararg nDay: Int) = Schedule(
+    private fun createSchedule(startDate: String, endDate: String, isBusinessDay: Boolean, vararg nDay: Int) =
+            Schedule(
             parse(startDate), parse(endDate), ScheduleType.MONTHLY, isBusinessDay, nDay.toList())
+
+
+    private fun example(startDate: String, endDate: String, isBusinessDay: Boolean, vararg nDay: Int) =
+            Schedule(
+                    startDate= LocalDate.parse("2018-07-05"),
+                    endDate =  LocalDate.parse("2018-10-25"),
+                    scheduleType = ScheduleType.MONTHLY,
+                    businessDay = true,
+                    dayPositions = asList(1,2,-3)).toListOfDates()
 }
