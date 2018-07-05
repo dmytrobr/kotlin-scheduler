@@ -1,7 +1,6 @@
 package com.dmytrobr
 
 import com.dmytrobr.data.Schedule
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.IsoFields
 import java.time.temporal.Temporal
@@ -17,15 +16,13 @@ fun quarterlySchedule(schedule: Schedule): List<LocalDate> {
     }
     val dates = ArrayList<LocalDate>()
     for (n in schedule.dayPositions) {
-        DayPositionIterator(n, schedule.startDate, schedule.endDate, jumpToNextQuarter(), findNextDate).forEach { date ->
-            dates.add(date)
-        }
+        dates.addAll(findAllNDaysInPeriod(n, schedule.startDate, schedule.endDate, jumpToNextQuarter(), findNextDate))
     }
     return dates
 
 }
 
-private fun findNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate = findNBusinessDayInPeriod(
+private fun findNBusinessDayInQuarter() = findNBusinessDayInPeriod(
         adjustToFirstDayOfPeriod = TemporalAdjuster { temporal: Temporal ->
             temporal.with(IsoFields.DAY_OF_QUARTER, temporal.range(IsoFields.DAY_OF_QUARTER).minimum)
 
@@ -44,12 +41,6 @@ fun findNextNDayInQuarter(): (LocalDate, Int) -> LocalDate =
             date.with(IsoFields.DAY_OF_QUARTER, shiftDay)
 
         }
-
-//fun findNextNBusinessDayInQuarter(): (LocalDate, Int) -> LocalDate =
-//        {
-//            findNBusinessDayInPeriod(oneA,twoA)
-//
-//        }
 
 
 private fun jumpToNextQuarter(): (LocalDate) -> LocalDate = { date -> date.plusMonths(3) }
