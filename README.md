@@ -1,4 +1,4 @@
-# kotlin-scheduler
+# Kotlin Scheduler
 
 Need to schedule something each 2nd last day of the month? Or maybe last
 Thursday of the month? What about each quarter or weekly schedules?
