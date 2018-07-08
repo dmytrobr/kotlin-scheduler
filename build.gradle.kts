@@ -31,7 +31,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         javaParameters = true   // Useful for reflection.
     }
 }
-//withParallelTests()
+
 repositories {
     mavenCentral()
 }

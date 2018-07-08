@@ -55,11 +55,4 @@ class MonthlyBusinessDayTest {
             parse(startDate), parse(endDate), ScheduleType.MONTHLY, isBusinessDay, nDay.toList())
 
 
-    private fun example(startDate: String, endDate: String, isBusinessDay: Boolean, vararg nDay: Int) =
-            Schedule(
-                    startDate= LocalDate.parse("2018-07-05"),
-                    endDate =  LocalDate.parse("2018-10-25"),
-                    scheduleType = ScheduleType.MONTHLY,
-                    businessDay = true,
-                    dayPositions = asList(1,2,-3)).toListOfDates()
 }
