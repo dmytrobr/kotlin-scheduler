@@ -28,7 +28,7 @@ OS:           Windows 10 10.0 amd64
 
 gradle clean build
 ```
-
+Output jar will be in build/libs directory of your project
 
 ### Example in Kotlin
 ```kotlin

@@ -19,7 +19,7 @@ class WeeklyTest {
 
 
     @Test
-    private fun `test multiple days across months`() {
+    fun `test multiple days across months`() {
         assertThat(
                 createSchedule("2017-07-28", "2017-08-03", 3, 5).toListOfDates())
                 .containsExactlyInAnyOrder(
@@ -28,7 +28,7 @@ class WeeklyTest {
     }
 
 
-    private fun createSchedule(startDate: String, endDate: String, vararg nDay: Int) = Schedule(
+    fun createSchedule(startDate: String, endDate: String, vararg nDay: Int) = Schedule(
             parse(startDate), parse(endDate), ScheduleType.WEEKLY, dayPositions = nDay.toList())
 
 }

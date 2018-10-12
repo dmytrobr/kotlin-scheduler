@@ -39,5 +39,3 @@ private fun jumpToNextMonth(): (LocalDate) -> LocalDate = { currentDay: LocalDat
 
 
 
-
-

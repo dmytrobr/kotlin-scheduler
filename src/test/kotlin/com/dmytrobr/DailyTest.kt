@@ -11,7 +11,7 @@ class DailyTest {
     @Test
     fun testDailySchedule() {
         assertThat(
-                createSchedule("2017-07-29", "2017-07-20", false).toListOfDates())
+                createSchedule("2017-07-29", "2017-07-30", false).toListOfDates())
                 .containsExactlyInAnyOrder(
                         parse("2017-07-29"))
     }

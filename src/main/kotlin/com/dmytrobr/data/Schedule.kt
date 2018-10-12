@@ -1,9 +1,6 @@
 package com.dmytrobr.data
 
-import com.dmytrobr.dailySchedule
-import com.dmytrobr.monthlySchedule
-import com.dmytrobr.quarterlySchedule
-import com.dmytrobr.weeklySchedule
+import com.dmytrobr.*
 import java.time.LocalDate
 import java.util.*
 
@@ -23,8 +20,13 @@ data class Schedule(
 
 fun Schedule.toListOfDates() =
         when (scheduleType) {
-            ScheduleType.DAILY -> dailySchedule(this)
-            ScheduleType.WEEKLY -> weeklySchedule(this)
+            ScheduleType.DAILY -> iterateWithCondition(this) {
+                !this.businessDay ||
+                        this.businessDay && !isWeekend(it)
+            }
+            ScheduleType.WEEKLY -> iterateWithCondition(this) {
+                this.dayPositions.contains(it.dayOfWeek.value)
+            }
             ScheduleType.MONTHLY -> monthlySchedule(this)
             ScheduleType.QUARTERLY -> quarterlySchedule(this)
             else -> throw IllegalArgumentException("Can't schedule $scheduleType")
