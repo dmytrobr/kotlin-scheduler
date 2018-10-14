@@ -27,7 +27,23 @@ fun Schedule.toListOfDates() =
             ScheduleType.WEEKLY -> iterateWithCondition(this) {
                 this.dayPositions.contains(it.dayOfWeek.value)
             }
-            ScheduleType.MONTHLY -> monthlySchedule(this)
-            ScheduleType.QUARTERLY -> quarterlySchedule(this)
+            ScheduleType.MONTHLY -> {
+                val result = LinkedList<LocalDate>()
+                dayPositions.forEach {
+                    for (date in startDate..endDate.minusDays(1) jumpStep findDayNextMonth(this, it)) {
+                        result.add(date)
+                    }
+                }
+                result
+            }
+            ScheduleType.QUARTERLY -> {
+                val result = LinkedList<LocalDate>()
+                dayPositions.forEach {
+                    for (date in startDate..endDate.minusDays(1) jumpStep findNextDayInQuarter(this, it)) {
+                        result.add(date)
+                    }
+                }
+                result
+            }
             else -> throw IllegalArgumentException("Can't schedule $scheduleType")
         }

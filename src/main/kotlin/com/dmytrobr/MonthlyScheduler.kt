@@ -6,35 +6,22 @@ import java.time.YearMonth
 import java.time.temporal.TemporalAdjusters
 import java.util.*
 
-fun monthlySchedule(schedule: Schedule): List<LocalDate> {
-    val findNextNDayInMonth = if (schedule.businessDay) {
-        findNBusinessDayInPeriod(TemporalAdjusters.firstDayOfMonth(), TemporalAdjusters.lastDayOfMonth())
+fun findDayNextMonth(schedule: Schedule, nDay: Int): (LocalDate) -> LocalDate {
+    return if (schedule.businessDay) {
+        findNBusinessDayInPeriod(TemporalAdjusters.firstDayOfNextMonth(), TemporalAdjusters.lastDayOfMonth(), nDay)
     } else {
-        findNDayInMonth()
+        findNDayInNextMonth(nDay)
     }
-    val dates = ArrayList<LocalDate>()
-    for (n in schedule.dayPositions) {
-        findAllNDaysInPeriod(n, schedule.startDate, schedule.endDate, jumpToNextMonth(), findNextNDayInMonth).forEach { date ->
-            dates.add(date)
-        }
-
-    }
-    return dates
 }
 
-
-private fun findNDayInMonth(): (LocalDate, Int) -> LocalDate = { currentDay: LocalDate, dayPosition: Int ->
-    val yMonth = YearMonth.of(currentDay.year, currentDay.month)
+private fun findNDayInNextMonth(dayPosition: Int): (LocalDate) -> LocalDate = { currentDay: LocalDate ->
+    val dateNextMonth = currentDay.plusMonths(1)
+    val yMonth = YearMonth.of(dateNextMonth.year, dateNextMonth.month)
     if (dayPosition > 0) {
         yMonth.atDay(dayPosition)
     } else {
         yMonth.atEndOfMonth().plusDays(dayPosition + 1L)
     }
-}
-
-
-private fun jumpToNextMonth(): (LocalDate) -> LocalDate = { currentDay: LocalDate ->
-    currentDay.plusMonths(1)
 }
 
 
