@@ -21,8 +21,7 @@ data class Schedule(
 fun Schedule.toListOfDates() =
         when (scheduleType) {
             ScheduleType.DAILY -> iterateWithCondition(this) {
-                !this.businessDay ||
-                        this.businessDay && !isWeekend(it)
+                !this.businessDay || !isWeekend(it)
             }
             ScheduleType.WEEKLY -> iterateWithCondition(this) {
                 this.dayPositions.contains(it.dayOfWeek.value)
